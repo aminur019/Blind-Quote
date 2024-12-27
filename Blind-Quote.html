@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blind Quote</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top:25px;
+        }
+
+        .quote-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-direction: column;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 0.95em;
+            color: #888;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #888;
+            transition: color 0.2s ease;
+            position: absolute;
+            top: 5px;
+            right: 18.80%;
+            display: inline-block;
+            background: #B71C1C;
+            border-radius: 50%;
+        }
+
+        .close-btn:hover {
+            color: #ff4d4d;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* Image Section */
+        .image-section {
+            flex: 2;
+            text-align: center;
+        }
+
+        .product-model {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .blind-image {
+            max-width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            max-width: 304px;
+            max-height: 320px;
+            min-width: 304px;
+            min-height: 320px;
+        }
+
+        .blind-image:hover {
+            transform: scale(1.05);
+        }
+
+        .total-price {
+            margin-top: 15px;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #444;
+            background: #eef7ff;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        div#mobile-hide {
+            visibility: hidden;
+        }
+
+        /* Order Summary Section */
+        .order-summary {
+            flex: 2;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .order-summary h3 {
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            color: #333;
+            margin: 0;
+        }
+
+        .order-summary h3 i {
+            margin-right: 10px;
+            color: #555;
+        }
+
+        .details {
+            margin-top: 10px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ebebeb;
+            font-size: 0.95em;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-item span {
+            color: #555;
+        }
+
+        .terms {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        .terms input {
+            margin-right: 10px;
+        }
+
+        .terms a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .back-btn {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .back-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .confirm-btn {
+            background: #007bff;
+            color: #fff;
+        }
+
+        .confirm-btn:hover {
+            background: #0056b3;
+        }
+
+        /* Product Showcase Carousel */
+        .product-showcase {
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            margin-top: 30px;
+        }
+
+        .showcase-wrapper {
+            display: flex;
+            transition: transform 0.3s ease;
+        }
+
+        .showcase-item {
+            flex: 0 0 20%;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            max-width: 154px;
+            max-height: 170px;
+            min-width: 154px;
+            min-height: 170px;
+            padding-right: 15px;
+        }
+
+        .showcase-item:hover {
+            transform: scale(1.1);
+        }
+
+        .showcase-item img {
+            width: 100%;
+            max-width: 150px;
+            max-height: 100px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+        }
+
+        /* Carousel Navigation */
+		.carousel-nav {
+			position: absolute;
+			top: 82%;
+			transform: translateY(-50%);
+			width: 380px;
+			display: flex;
+			justify-content: space-between;
+			padding: 0 20px;
+		}
+
+        .prev, .next {
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1.5em;
+            border-radius: 50%;
+        }
+
+        .prev:hover, .next:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+		
+		
+        /* Media Queries for Responsiveness */
+        /* For smaller devices like mobile phones */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+			.quote-container {
+				padding: 20px;
+				height: min-content;
+				background: none;
+				box-shadow: none;
+			}
+
+            .image-section, .order-summary {
+                flex: 1 1 100%;
+                text-align: center;
+            }
+
+            .product-model {
+                font-size: 1.3em;
+            }
+
+            .blind-image {
+                max-width: 90%;
+                max-height: 250px;
+            }
+
+            .showcase-item {
+                flex: 0 0 45%;
+            }
+
+            .showcase-item img {
+                max-width: 130px;
+                max-height: 90px;
+            }
+
+			.carousel-nav {
+				width: 100%;
+				margin-top: 60px;
+				max-width: 280px;
+				padding: 0 20px;
+			}			.order-summary {
+					margin-top: 200px;
+			}
+				.product-showcase {
+					max-width: 320px;
+					margin: 0 auto;
+					margin-top: -647px;
+				}
+			.order-summary h3 {
+                font-size: 1.5em;
+            }
+			.header-text {
+				display: flex;
+				justify-content: space-around;
+			}
+
+            .details .detail-item {
+                font-size: 0.85em;
+            }
+}
+
+        /* For even smaller screens (e.g., mobile phones in portrait mode) */
+        @media (max-width: 480px) {
+            .quote-container {
+                padding: 10px;
+            }
+
+            .product-model {
+                font-size: 1.2em;
+            }
+
+            .blind-image {
+                max-width: 100%;
+                max-height: 220px;
+            }
+
+            .showcase-item {
+                flex: 0 0 100%;
+            }
+
+            .showcase-item img {
+                max-width: 120px;
+                max-height: 80px;
+            }
+
+            .order-summary h3 {
+                font-size: 1.3em;
+            }
+
+            .terms input {
+                width: 20px;
+                height: 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quote-container">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h2>Blind Quote</h2>
+                <p>Summary of your order.</p>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Image Section -->
+            <div class="image-section" id="image-section">
+                <h1 class="product-model" id="product-model">Model: Wooden Blinds</h1>
+                <img id="main-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3tF_59K8gX9e4vP9Au-_PsVSQbRPl5vTwYw&s" alt="Blind Image" class="blind-image" onclick="updateOrderDetails('Wooden Blind', 'Wooden Blinds', '£151.00', '120 Cm', '200 Cm', 'Bleached Sand', 'Light Grey', 'Installation')">
+                <div class="total-price" id="price">Total Price: £151.00</div>
+            
+			
+			
+			<div class="carousel-nav">
+                <button class="prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="next"><i class="fas fa-chevron-right"></i></button>
+			</div>
+			
+			
+			
+			
+			
+			</div>
+			
+			
+			
+            <!-- Order Summary Section -->
+            <div class="order-summary" id="order-summary">
+                <div class="header-text"><h3>Order Summary <pre>  </pre><i class="fas fa-file-alt"></i> </h3></div>
+                <div class="details">
+                    <div class="detail-item"><span>Fabric Selection:</span><span id="fabric">Wooden Blind</span></div>
+                    <div class="detail-item"><span>Blind Style:</span><span id="style">Wooden Blinds</span></div>
+                    <div class="detail-item"><span>Width:</span><span id="width">120 Cm</span></div>
+                    <div class="detail-item"><span>Drop:</span><span id="drop">200 Cm</span></div>
+                    <div class="detail-item"><span>Ladder tape:</span><span id="tape">Bleached Sand</span></div>
+                    <div class="detail-item"><span>Select colour:</span><span id="color">Light Grey</span></div>
+                    <div class="detail-item"><span>Services:</span><span id="services">Installation</span></div>
+                </div>
+                <div class="terms">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to these <a href="#">Terms and Conditions</a></label>
+                </div>
+                <div class="buttons">
+                    <button class="btn back-btn">Go Back</button>
+                    <button class="btn confirm-btn" onclick="confirmOrder()">Confirm</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Showcase Carousel -->
+        <div class="product-showcase" id="carousel">
+            <div class="showcase-wrapper">
+                <!-- 10 Showcase Items -->
+                <div class="showcase-item" data-index="0" onclick="updateOrderDetails('Wooden Blind', 'Wooden Blinds', '£151.00', '120 Cm', '200 Cm', 'Bleached Sand', 'Light Grey', 'Installation')">
+                    <img src="https://5.imimg.com/data5/ZK/XJ/RK/SELLER-2662407/wooden-vertical-blinds.jpg" alt="Wooden Blind 1">
+                    <p>Wooden Blinds</p>
+                </div>
+                <div class="showcase-item" data-index="1" onclick="updateOrderDetails('Roller Blind', 'Blackout Roller', '£119.00', '100 Cm', '180 Cm', 'Black', 'Black', 'No Installation')">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYZNwwtbESAy9xTSiCSg6r-WgFHCH7zZVAgv4rN_xI7cL40aeu1mzoXKadhVO38Ks57Co&usqp=CAU" alt="Roller Blind">
+                    <p>Blackout Roller Blind</p>
+                </div>
+                <div class="showcase-item" data-index="2" onclick="updateOrderDetails('Roman Blind', 'Luxury Roman', '£199.00', '150 Cm', '220 Cm', 'Velvet Beige', 'Cream', 'Installation')">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTojx5gK700RhmeUvl75oSKsq42taXgtOwe8g&s" alt="Roman Blind">
+                    <p>Luxury Roman Blind</p>
+                </div>
+                <div class="showcase-item" data-index="3" onclick="updateOrderDetails('Venetian Blind', 'Aluminum Venetian', '£130.00', '120 Cm', '200 Cm', 'Silver', 'Silver', 'No Installation')">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh7_ZPtkRb-9aq18H1C1HCrhUPQ_5tDWsecVm1EBC_cDCBS_0cb7KuW-tQffy5g97CmUc&usqp=CAU" alt="Venetian Blind">
+                    <p>Aluminum Venetian Blind</p>
+                </div>
+                <div class="showcase-item" data-index="4" onclick="updateOrderDetails('Fabric Blind', 'Luxury Fabric', '£180.00', '100 Cm', '200 Cm', 'Linen White', 'Ivory', 'Installation')">
+                    <img src="https://i.pinimg.com/474x/fc/6c/58/fc6c58e034a0850aef60ca1c731ffb32.jpg" alt="Fabric Blind">
+                    <p>Luxury Fabric Blind</p>
+                </div>
+                <div class="showcase-item" data-index="5" onclick="updateOrderDetails('Panel Blind', 'Stylish Panel', '£220.00', '180 Cm', '220 Cm', 'Grey', 'Silver', 'No Installation')">
+                    <img src="https://urban-studio.co.za/wp-content/uploads/2022/07/designer_panel_blinds.jpg" alt="Panel Blind">
+                    <p>Stylish Panel Blind</p>
+                </div>
+                <div class="showcase-item" data-index="6" onclick="updateOrderDetails('Pleated Blind', 'Modern Pleated', '£140.00', '100 Cm', '150 Cm', 'Dark Grey', 'Light Grey', 'Installation')">
+                    <img src="https://5.imimg.com/data5/AW/OW/RJ/SELLER-54357648/window-duplex-blinds-500x500.jpg" alt="Pleated Blind">
+                    <p>Modern Pleated Blind</p>
+                </div>
+                <div class="showcase-item" data-index="7" onclick="updateOrderDetails('Motorized Blind', 'Smart Motorized', '£300.00', '150 Cm', '220 Cm', 'Black', 'White', 'No Installation')">
+                    <img src="https://static.wixstatic.com/media/e65b53_ebe7657fd1b34d5ea34d4cc299182fc3~mv2.webp/v1/fill/w_568,h_426,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/e65b53_ebe7657fd1b34d5ea34d4cc299182fc3~mv2.webp" alt="Motorized Blind">
+                    <p>Smart Motorized Blind</p>
+                </div>
+                <div class="showcase-item" data-index="8" onclick="updateOrderDetails('Cellular Blind', 'Energy Efficient', '£160.00', '100 Cm', '200 Cm', 'Beige', 'White', 'Installation')">
+                    <img src="https://www.theblindtailor.co.uk/storage/images/blog/energy-efficient-blinds.jpg" alt="Cellular Blind">
+                    <p>Energy Efficient Cellular Blind</p>
+                </div>
+                <div class="showcase-item" data-index="9" onclick="updateOrderDetails('Roller Blind', 'Classic Roller', '£120.00', '120 Cm', '200 Cm', 'White', 'Black', 'No Installation')">
+                    <img src="https://rolety.eu/11462-home_default/cassette-superior-roller-blind-day-night-classic-brown-1217.jpg" alt="Classic Roller Blind">
+                    <p>Classic Roller Blind</p>
+                </div>
+            </div>
+
+            <!-- Carousel Navigation -->
+            
+        </div>
+    </div>
+
+    <script>
+        function updateOrderDetails(fabric, style, price, width, drop, tape, color, services) {
+            document.getElementById('fabric').textContent = fabric;
+            document.getElementById('style').textContent = style;
+            document.getElementById('price').textContent = 'Total Price: ' + price;
+            document.getElementById('width').textContent = width;
+            document.getElementById('drop').textContent = drop;
+            document.getElementById('tape').textContent = tape;
+            document.getElementById('color').textContent = color;
+            document.getElementById('services').textContent = services;
+
+            // Update model name and image dynamically
+            document.getElementById('product-model').textContent = 'Model: ' + style;
+            document.getElementById('main-image').src = event.target.src; // Update image source to clicked image
+        }
+
+        function confirmOrder() {
+            alert('Your order has been confirmed!');
+        }
+
+        // Carousel navigation
+        let carouselIndex = 0;
+        const showcaseWrapper = document.querySelector('.showcase-wrapper');
+        const items = document.querySelectorAll('.showcase-item');
+        const totalItems = items.length;
+
+        function showNext() {
+            if (carouselIndex < totalItems - 1) {
+                carouselIndex++;
+            } else {
+                carouselIndex = 0;
+            }
+            showcaseWrapper.style.transform = `translateX(-${carouselIndex * 6}%)`;
+        }
+
+        function showPrev() {
+            if (carouselIndex > 0) {
+                carouselIndex--;
+            } else {
+                carouselIndex = totalItems - 1;
+            }
+            showcaseWrapper.style.transform = `translateX(-${carouselIndex * 6}%)`;
+        }
+
+        document.querySelector('.prev').addEventListener('click', showPrev);
+        document.querySelector('.next').addEventListener('click', showNext);
+    </script>
+</body>
+</html>
